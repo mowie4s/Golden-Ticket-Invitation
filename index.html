@@ -26,6 +26,7 @@
         #finalTicket { background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #aa771c); padding: 25px 20px; border-radius: 12px; color: #1a1a1a; text-align: left; border: 2px dashed #1a1a1a; margin-top: 20px; }
         .ticket-header { border-bottom: 2px dashed #1a1a1a; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
         .ticket-info { font-size: 13px; margin-bottom: 6px; }
+        .note { font-size: 12px; color: #888; margin-top: 15px; font-style: italic; }
     </style>
 </head>
 <body>
@@ -33,27 +34,20 @@
 <div class="container">
     <div class="page active" id="p1">
         <h1>Golden Ticket</h1>
-        <div class="form-group">
-            <label>Nama:</label><input type="text" id="nameInput" placeholder="Nama kamu..." required>
-        </div>
+        <div class="form-group"><label>Nama:</label><input type="text" id="nameInput" placeholder="Nama kamu..."></div>
         <div class="form-group" style="display: flex; gap: 10px;">
-            <div style="flex: 2;"><label>Tanggal:</label><input type="date" id="dateInput" required></div>
-            <div style="flex: 1;"><label>Jam:</label><input type="time" id="timeInput" value="19:00" required></div>
+            <div style="flex: 2;"><label>Tanggal:</label><input type="date" id="dateInput"></div>
+            <div style="flex: 1;"><label>Jam:</label><input type="time" id="timeInput" value="19:00"></div>
         </div>
         <button onclick="validateP1()">Lanjut ke Agenda ➔</button>
     </div>
 
     <div class="page" id="p2">
         <h2>Our Itinerary 🗺️</h2>
-        <div class="form-group">
-            <label>Nonton:</label><input type="text" id="inMovie" placeholder="Mau nonton apa?">
-        </div>
-        <div class="form-group">
-            <label>Makan:</label><input type="text" id="inDinner" placeholder="Mau makan di mana?">
-        </div>
-        <div class="form-group">
-            <label>Aktivitas:</label><input type="text" id="inPlay" placeholder="Mau ngapain lagi?">
-        </div>
+        <div class="form-group"><label>Nonton:</label><input type="text" id="inMovie" placeholder="Mau nonton apa?"></div>
+        <div class="form-group"><label>Makan:</label><input type="text" id="inDinner" placeholder="Mau makan di mana?"></div>
+        <div class="form-group"><label>Aktivitas:</label><input type="text" id="inPlay" placeholder="Mau ngapain lagi?"></div>
+        
         <button onclick="validateP2()">Lanjut ke Request ➔</button>
         <button class="back-btn" onclick="nextPage(1)">Kembali</button>
     </div>
@@ -76,6 +70,7 @@
             <div class="ticket-info" style="margin-top:10px;">✨ <strong>REQ:</strong> "<span id="resReq"></span>"</div>
         </div>
         <button onclick="downloadTicket()">⬇️ UNDUH TIKET</button>
+        <p class="note">Buka galeri HP setelah klik unduh, lalu kirim fotonya ke WhatsApp aku ya! 😉</p>
         <button class="back-btn" onclick="nextPage(3)">Kembali</button>
     </div>
 </div>
@@ -83,14 +78,12 @@
 <script>
     function nextPage(n) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById('p'+n).classList.add('active'); }
     
-    // Validasi Halaman 1
     function validateP1() {
         if(!document.getElementById('nameInput').value || !document.getElementById('dateInput').value) {
             alert("Tolong isi Nama dan Tanggal dulu ya! 😊");
         } else { nextPage(2); }
     }
 
-    // Validasi Halaman 2
     function validateP2() {
         if(!document.getElementById('inMovie').value || !document.getElementById('inDinner').value || !document.getElementById('inPlay').value) {
             alert("Tolong isi semua kolom agenda ya! 😊");
@@ -118,4 +111,4 @@
     }
 </script>
 </body>
-                                                                 </html>
+            </html>
