@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Golden Ticket Invitation ✨</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    
+    <style>
+        :root { --gold: #d4af37; --dark: #121212; --card-bg: #1e1e1e; }
+        body { font-family: 'Poppins', sans-serif; background-color: var(--dark); color: #ffffff; margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { width: 100%; max-width: 400px; padding: 20px; box-sizing: border-box; }
+        .page { display: none; background: var(--card-bg); padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: center; border: 1px solid #333; animation: slideIn 0.4s ease forwards; }
+        .page.active { display: block; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+        
+        h1, h2 { font-family: 'Playfair Display', serif; color: var(--gold); }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { font-size: 13px; color: var(--gold); display: block; margin-bottom: 5px; }
+        input, textarea { width: 100%; padding: 12px; background: #2a2a2a; border: 1px solid #444; border-radius: 8px; color: white; box-sizing: border-box; }
+        
+        button { background: linear-gradient(135deg, var(--gold), #aa771c); color: #000; border: none; padding: 12px 25px; border-radius: 25px; font-weight: 600; cursor: pointer; margin-top: 15px; width: 100%; }
+        .back-btn { background: transparent; color: #888; border: 1px solid #444; margin-top: 10px; }
+        
+        #finalTicket { background: linear-gradient(135deg, #bf953f, #fcf6ba, #b38728, #aa771c); padding: 25px 20px; border-radius: 12px; color: #1a1a1a; text-align: left; border: 2px dashed #1a1a1a; margin-top: 20px; }
+        .ticket-header { border-bottom: 2px dashed #1a1a1a; padding-bottom: 10px; margin-bottom: 15px; text-align: center; }
+        .ticket-info { font-size: 13px; margin-bottom: 6px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="page active" id="p1">
+        <h1>Golden Ticket</h1>
+        <div class="form-group">
+            <label>Nama:</label><input type="text" id="nameInput" placeholder="Nama kamu..." required>
+        </div>
+        <div class="form-group" style="display: flex; gap: 10px;">
+            <div style="flex: 2;"><label>Tanggal:</label><input type="date" id="dateInput" required></div>
+            <div style="flex: 1;"><label>Jam:</label><input type="time" id="timeInput" value="19:00" required></div>
+        </div>
+        <button onclick="validateP1()">Lanjut ke Agenda ➔</button>
+    </div>
+
+    <div class="page" id="p2">
+        <h2>Our Itinerary 🗺️</h2>
+        <div class="form-group">
+            <label>Nonton:</label><input type="text" id="inMovie" placeholder="Mau nonton apa?">
+        </div>
+        <div class="form-group">
+            <label>Makan:</label><input type="text" id="inDinner" placeholder="Mau makan di mana?">
+        </div>
+        <div class="form-group">
+            <label>Aktivitas:</label><input type="text" id="inPlay" placeholder="Mau ngapain lagi?">
+        </div>
+        <button onclick="validateP2()">Lanjut ke Request ➔</button>
+        <button class="back-btn" onclick="nextPage(1)">Kembali</button>
+    </div>
+
+    <div class="page" id="p3">
+        <h2>Request Spesial? 💫</h2>
+        <textarea id="requestInput" rows="4" placeholder="Permintaan khusus..."></textarea>
+        <button onclick="finalizeTicket()">Siap Cetak Tiket! 🎟️</button>
+        <button class="back-btn" onclick="nextPage(2)">Kembali</button>
+    </div>
+
+    <div class="page" id="p4">
+        <h2>Your Ticket!</h2>
+        <div id="finalTicket">
+            <div class="ticket-header"><h2>GOLDEN TICKET</h2></div>
+            <div class="ticket-info">👤 <strong>PASSENGER:</strong> <span id="resName"></span></div>
+            <div class="ticket-info">📅 <strong>WAKTU:</strong> <span id="resDate"></span> / <span id="resTime"></span></div>
+            <div class="ticket-info">📌 <strong>AGENDA:</strong></div>
+            <div class="ticket-info" id="resAgenda"></div>
+            <div class="ticket-info" style="margin-top:10px;">✨ <strong>REQ:</strong> "<span id="resReq"></span>"</div>
+        </div>
+        <button onclick="downloadTicket()">⬇️ UNDUH TIKET</button>
+        <button class="back-btn" onclick="nextPage(3)">Kembali</button>
+    </div>
+</div>
+
+<script>
+    function nextPage(n) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); document.getElementById('p'+n).classList.add('active'); }
+    
+    // Validasi Halaman 1
+    function validateP1() {
+        if(!document.getElementById('nameInput').value || !document.getElementById('dateInput').value) {
+            alert("Tolong isi Nama dan Tanggal dulu ya! 😊");
+        } else { nextPage(2); }
+    }
+
+    // Validasi Halaman 2
+    function validateP2() {
+        if(!document.getElementById('inMovie').value || !document.getElementById('inDinner').value || !document.getElementById('inPlay').value) {
+            alert("Tolong isi semua kolom agenda ya! 😊");
+        } else { nextPage(3); }
+    }
+
+    function finalizeTicket() {
+        document.getElementById('resName').innerText = document.getElementById('nameInput').value.toUpperCase();
+        document.getElementById('resDate').innerText = document.getElementById('dateInput').value;
+        document.getElementById('resTime').innerText = document.getElementById('timeInput').value;
+        
+        let m = document.getElementById('inMovie').value;
+        let d = document.getElementById('inDinner').value;
+        let p = document.getElementById('inPlay').value;
+        document.getElementById('resAgenda').innerHTML = `🍿 ${m}<br>🍝 ${d}<br>🚗 ${p}`;
+        
+        document.getElementById('resReq').innerText = document.getElementById('requestInput').value || "Tidak ada permintaan khusus.";
+        nextPage(4);
+    }
+
+    function downloadTicket() {
+        html2canvas(document.getElementById('finalTicket'), {scale: 2}).then(canvas => {
+            const a = document.createElement('a'); a.download = 'Golden-Ticket.png'; a.href = canvas.toDataURL(); a.click();
+        });
+    }
+</script>
+</body>
+                                                                 </html>
